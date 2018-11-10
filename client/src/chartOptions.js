@@ -2,6 +2,7 @@ export const chart = {
   options: {
     maintainAspectRatio: false,
     legend: {
+      display: false,
       labels: {
         fontColor: '#ffffff',
         fontSize: 14,
@@ -11,14 +12,13 @@ export const chart = {
     scales: {
       yAxes: [
         {
-          stacked: true,
           gridLines: {
             drawBorder: true,
-            color: '#ffffff',
+            color: '#ffffff'
           },
           scaleLabel: {
             display: true,
-            labelString: 'Queue Times',
+            labelString: 'Congestion Rating',
             fontColor: 'white',
             fontSize: 18,
             fontStyle: 'bold'
@@ -35,9 +35,9 @@ export const chart = {
       ],
       xAxes: [
         {
-          stacked: true,
           gridLines: {
-            display: false
+            display: false,
+            color: '#ffffff'
           },
           ticks: {
             fontColor: 'white',
@@ -46,6 +46,6 @@ export const chart = {
           }
         }
       ]
-    },
+    }
   }
 }
