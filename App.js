@@ -3,18 +3,52 @@ import { StyleSheet, Text, View, Image, Button } from 'react-native';
 
 export default class App extends React.Component {
 
-  onclick() {
-    fetch('https://mywebsite.com/endpoint/', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstParam: 'yourValue',
-        secondParam: 'yourOtherValue',
-      }),
+  constructor() {
+    super();
+      this.state = {
+        gate: "gate"
+      };
+  }
+
+  onclickA() {
+    // Getting chase by the goverment
+    // No Tier 2 visa, no money TAT
+    fetch('http://10.75.203.14:8000/queues/allocate/?large_luggages=2&small_luggages=1&no_of_ppl=1&no_of_kids=0')
+    .then((response) => {
+      console.log(response._bodyText);
+      this.setState({ gate: response._bodyText });
+    })
+    .catch(function(error) {
+      console.log(error);
+      // ADD THIS THROW error
+      throw error;
     });
+  }
+
+  onclickB() {
+    fetch('http://10.75.203.14:8000/queues/allocate/?large_luggages=4&small_luggages=2&no_of_ppl=2&no_of_kids=2')
+    .then((response) => {
+      console.log(response._bodyText);
+      this.setState({ gate: response._bodyText });
+    })
+    .catch(function(error) {
+      console.log(error);
+      // ADD THIS THROW error
+      throw error;
+    });
+  }
+
+  onclickC() {
+    fetch('http://10.75.203.14:8000/queues/allocate/?large_luggages=4&small_luggages=3&no_of_ppl=4&no_of_kids=0')
+    .then((response) => {
+      console.log(response._bodyText);
+      this.setState({ gate: response._bodyText });
+    })
+    .catch(function(error) {
+      console.log(error);
+      // ADD THIS THROW error
+      throw error;
+    })
   }
 
   render() {
@@ -23,25 +57,30 @@ export default class App extends React.Component {
         <Image source={require('./res/frame.png')} />
         <View style={styles.rowContainer}>
           <Button
-            title="A"
+            title="Single"
             color="#F4D35E"
             accessibilityLabel="Learn more about this purple button"
             style={styles.buttonContainer}
-            onclick
+            onPress={ () => this.onclickA() }
           />
           <Button
-            title="B"
+            title="Family"
             color="#F4D35E"
             accessibilityLabel="Learn more about this purple button"
             style={styles.buttonContainer}
+            onPress={ () => this.onclickB() }
           />
           <Button
-            title="C"
+            title="Group"
             color="#F4D35E"
             accessibilityLabel="Learn more about this purple button"
             style={styles.buttonContainer}
+            onPress={ () => this.onclickC() }
           />
         </View>
+        <Text style={styles.titleText}>
+          Please go to lane {this.state.gate} through gate {this.state.gate}
+        </Text>
       </View>
 
     );
@@ -70,5 +109,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
+  },
+  baseText: {
+    fontFamily: 'Cochin',
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
   },
 });

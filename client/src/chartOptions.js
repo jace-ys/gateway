@@ -28,9 +28,10 @@ export const chart = {
             fontSize: 14,
             fontStyle: 'bold',
             beginAtZero: true,
+            reverse: true,
             min: 0,
-            max: 100
-          }
+            max: 100,
+          },
         }
       ],
       xAxes: [

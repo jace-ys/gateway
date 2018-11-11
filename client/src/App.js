@@ -7,8 +7,8 @@ import QueueChart from './QueueChart';
 export default class App extends Component {
   render() {
     return (
-      <Container text align="center" style={{ padding: '30px' }}>
-        <h1>Gate Queue Profiles</h1>
+      <Container text align="center" style={{ padding: '20px' }}>
+        <h1>Immagration Queue Profiles</h1>
         <QueueChart />
       </Container>
     );

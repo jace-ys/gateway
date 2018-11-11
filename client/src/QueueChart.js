@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Button } from 'react';
 import { Bar } from 'react-chartjs-2';
-import socketIOClient from 'socket.io-client';
 import { chart } from './chartOptions';
 
 export default class QueueChart extends Component {
@@ -11,7 +10,7 @@ export default class QueueChart extends Component {
     };
   }
   componentDidMount() {
-    var chatSocket = new WebSocket('ws://localhost:8000/ws/queues/');
+    var chatSocket = new WebSocket('ws://10.75.203.14:8000/ws/queues/');
     chatSocket.onmessage = (e) => {
       var data = JSON.parse(e.data);
       console.log(data['queue_status']);
@@ -31,7 +30,7 @@ export default class QueueChart extends Component {
     const { queue_status } = this.state
 
     const dataset = {
-      labels: ['Gate 1', 'Gate 2', 'Gate 3', 'Gate 4', 'Gate 5', 'Gate 6', 'Gate 7', 'Gate 8'],
+      labels: ['Lane 1', 'Lane 2', 'Lane 3', 'Lane 4', 'Lane 5', 'Lane 6', 'Lane 7', 'Lane 8'],
       datasets: [{
           label: 'Groups w/ children',
           backgroundColor: 'rgba(255,99,132,0.4)',
@@ -44,23 +43,39 @@ export default class QueueChart extends Component {
       ],
     };
 
-    return ( <
-      div >
-      <
-      Bar data = {
-        dataset
-      }
-      width = {
-        400
-      }
-      height = {
-        450
-      }
-      options = {
-        chart.options
-      }
-      /> <
-      /div>
+    return (
+      <div>
+        <button type="button" class="bo">BC1</button>
+        <button type="button" class="bo">BC2</button>
+        <button type="button" class="bo">BC3</button>
+        <button type="button" class="bo">BC4</button>
+        <button type="button" class="bo">BC5</button>
+        <button type="button" class="bo">BC6</button>
+        <button type="button" class="bo">BC7</button>
+        <button type="button" class="bo">BC8</button>
+        <button type="button" class="bo">BC9</button>
+        <Bar data = {dataset} width = {400} height = {350} options = {chart.options}/>
+        <button type="button" class={this.state.queue_status[0]> 40 ? "yoBusy":"yo"}>Gate1</button>
+        <button type="button" class={this.state.queue_status[0] > 40||this.state.queue_status[1] > 40 ? "yoBusy":"yo"}>Gate2</button>
+        <button type="button" class={this.state.queue_status[1] > 40||this.state.queue_status[2] > 40 ? "yoBusy":"yo"}>Gate3</button>
+        <button type="button" class={this.state.queue_status[2] > 40||this.state.queue_status[3] > 40 ? "yoBusy":"yo"}>Gate4</button>
+        <button type="button" class={this.state.queue_status[3] > 40 ? "yoBusy":"yo"}>Gate5</button>
+        <button type="button" class="yo">Gate6</button>
+        <button type="button" class="yo">Gate7</button>
+        <button type="button" class="yo">Gate8</button>
+        <button type="button" class="yo">Gate9</button>
+      </div>
+
+
     );
   }
 }
+
+// const styles = StyleSheet.create({
+//   buttonContainer: {
+//     flex:1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     padding: 10,
+//   }
+// })
