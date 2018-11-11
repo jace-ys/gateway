@@ -34,3 +34,14 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 15px;
   margin-top: 30px;
 }
+.new {
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  background-color: #28AFB0;
+  border: none;
+  margin-left: 15px;
+  margin-top: 30px;
+}

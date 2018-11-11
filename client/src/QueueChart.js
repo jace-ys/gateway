@@ -6,15 +6,21 @@ export default class QueueChart extends Component {
   constructor() {
     super();
     this.state = {
-      queue_status : [0,0,0,0]
+      queue_status : [0,0,0,0],
+      gates_shd_open: 0
     };
   }
   componentDidMount() {
-    var chatSocket = new WebSocket('ws://10.75.203.14:8000/ws/queues/');
+    var chatSocket = new WebSocket('ws://172.20.10.6:8000/ws/queues/');
     chatSocket.onmessage = (e) => {
       var data = JSON.parse(e.data);
       console.log(data['queue_status']);
-      this.setState({ queue_status : data['queue_status']});
+      let i = data['queue_status'].length - this.state.queue_status.lenghth;
+      if(i > 0) {
+        this.setState({ gates_shd_open: i})
+      } else{
+        this.setState({ queue_status : data['queue_status']});
+      }
     };
     chatSocket.onclose = (e) => {
       console.error('Chat socket closed unexpectedly');
@@ -60,10 +66,10 @@ export default class QueueChart extends Component {
         <button type="button" class={this.state.queue_status[1] > 40||this.state.queue_status[2] > 40 ? "yoBusy":"yo"}>Gate3</button>
         <button type="button" class={this.state.queue_status[2] > 40||this.state.queue_status[3] > 40 ? "yoBusy":"yo"}>Gate4</button>
         <button type="button" class={this.state.queue_status[3] > 40 ? "yoBusy":"yo"}>Gate5</button>
-        <button type="button" class="yo">Gate6</button>
-        <button type="button" class="yo">Gate7</button>
-        <button type="button" class="yo">Gate8</button>
-        <button type="button" class="yo">Gate9</button>
+        <button type="button" class={((this.state.queue_status.reduce((a, b) => a + b, 0)) > 60 * 4) ? "new" : "yo"}>Gate6</button>
+        <button type="button" class={((this.state.queue_status.reduce((a, b) => a + b, 0)) > 60 * 5) ? "new" : "yo"}>Gate7</button>
+        <button type="button" class={((this.state.queue_status.reduce((a, b) => a + b, 0)) > 60 * 6) ? "new" : "yo"}>Gate8</button>
+        <button type="button" class={((this.state.queue_status.reduce((a, b) => a + b, 0)) > 60 * 7) ? "new" : "yo"}>Gate9</button>
       </div>
 
 

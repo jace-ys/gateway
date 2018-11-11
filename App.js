@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, Button } from 'react-native';
 
 export default class App extends React.Component {
 
+  // ip = '192.168.43.231';
+
   constructor() {
     super();
       this.state = {
@@ -13,7 +15,7 @@ export default class App extends React.Component {
   onclickA() {
     // Getting chase by the goverment
     // No Tier 2 visa, no money TAT
-    fetch('http://10.75.203.14:8000/queues/allocate/?large_luggages=2&small_luggages=1&no_of_ppl=1&no_of_kids=0')
+    fetch('http://172.20.10.6:8000/queues/allocate/?large_luggages=2&small_luggages=1&no_of_ppl=1&no_of_kids=0')
     .then((response) => {
       console.log(response._bodyText);
       this.setState({ gate: response._bodyText });
@@ -26,7 +28,7 @@ export default class App extends React.Component {
   }
 
   onclickB() {
-    fetch('http://10.75.203.14:8000/queues/allocate/?large_luggages=4&small_luggages=2&no_of_ppl=2&no_of_kids=2')
+    fetch('http://172.20.10.6:8000/queues/allocate/?large_luggages=4&small_luggages=2&no_of_ppl=2&no_of_kids=2')
     .then((response) => {
       console.log(response._bodyText);
       this.setState({ gate: response._bodyText });
@@ -39,7 +41,7 @@ export default class App extends React.Component {
   }
 
   onclickC() {
-    fetch('http://10.75.203.14:8000/queues/allocate/?large_luggages=4&small_luggages=3&no_of_ppl=4&no_of_kids=0')
+    fetch('http://172.20.10.6:8000/queues/allocate/?large_luggages=4&small_luggages=3&no_of_ppl=4&no_of_kids=0')
     .then((response) => {
       console.log(response._bodyText);
       this.setState({ gate: response._bodyText });
