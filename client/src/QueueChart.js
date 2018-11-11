@@ -1,46 +1,71 @@
-import React, { Component } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { chart } from './chartOptions';
-
-const dataset = {
-  labels: ['Gate 1', 'Gate 2', 'Gate 3', 'Gate 4', 'Gate 5', 'Gate 6', 'Gate 7', 'Gate 8'],
-  datasets: [
-    {
-      label: 'Groups w/ children',
-      backgroundColor: 'rgba(255,99,132,0.4)',
-      borderColor: 'rgba(255,99,132,1)',
-      borderWidth: 1,
-      hoverBackgroundColor: 'rgba(255,99,132,0.6)',
-      hoverBorderColor: 'rgba(255,99,132,1)',
-      data: [30, 49, 20, 38, 42, 25, 34, 24]
-    },
-    {
-      label: 'Groups w/o children',
-      backgroundColor: 'rgba(99,255,132,0.4)',
-      borderColor: 'rgba(99,255,132,1)',
-      borderWidth: 1,
-      hoverBackgroundColor: 'rgba(99,255,132,0.6)',
-      hoverBorderColor: 'rgba(99,255,132,1)',
-      data: [30, 48, 20, 38, 42, 25, 34, 24]
-    }
-  ],
-};
+import React, {
+  Component
+} from 'react';
+import {
+  Bar
+} from 'react-chartjs-2';
+import {
+  chart
+} from './chartOptions';
 
 export default class QueueChart extends Component {
-  componentWillMount() {
+  constructor() {
+    super();
+    this.state = {
+      queue_status : [0,0,0,0]
+    };
+  }
+  componentDidMount() {
+    var chatSocket = new WebSocket('ws://localhost:8000/ws/queues/');
+    chatSocket.onmessage = (e) => {
+      var data = JSON.parse(e.data);
+      console.log(data['queue_status']);
+      this.setState({ queue_status : data['queue_status']});
+    };
+    chatSocket.onclose = (e) => {
+      console.error('Chat socket closed unexpectedly');
+    };
 
+    chatSocket.onerror = (e) => {
+      console.log(e);
+    };
   }
 
   render() {
-    return (
-  		<div>
-        <Bar
-        	data={dataset}
-        	width={400}
-        	height={450}
-        	options={chart.options}
-        />
-  		</div>
-		);
-	}
+
+    const { queue_status } = this.state
+
+    const dataset = {
+      labels: ['Gate 1', 'Gate 2', 'Gate 3', 'Gate 4', 'Gate 5', 'Gate 6', 'Gate 7', 'Gate 8'],
+      datasets: [{
+          label: 'Groups w/ children',
+          backgroundColor: 'rgba(255,99,132,0.4)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(255,99,132,0.6)',
+          hoverBorderColor: 'rgba(255,99,132,1)',
+          data: queue_status
+        }
+      ],
+    };
+
+    return ( <
+      div >
+      <
+      Bar data = {
+        dataset
+      }
+      width = {
+        400
+      }
+      height = {
+        450
+      }
+      options = {
+        chart.options
+      }
+      /> <
+      /div>
+    );
+  }
 }
